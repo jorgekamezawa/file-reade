@@ -36,15 +36,15 @@ public class ManipuladorArquivo {
         System.out.println("########## RESULTADO ##########");
         int quantidadeVendedores = contarVendedores(vendedorList);
         System.out.println("Quantidade Vendedores - " + quantidadeVendedores);
-        int quantidadeCliente = contarClientes(clienteList);
-        System.out.println("Quantidade Clientes - " + quantidadeCliente);
+        int quantidadeClientes = contarClientes(clienteList);
+        System.out.println("Quantidade Clientes - " + quantidadeClientes);
         calcularTotalDaVendaPorItem(vendaList);
         Long idVendaMaisCara = calcularVendaMaisCara(vendaList);
         System.out.println("Id da venda mais cara - " + idVendaMaisCara);
         Vendedor vendedorQueMenosVendeu = calcularVededorQueMenosVendeu(vendedorList, vendaList);
         System.out.println("Pior vendedor - " + vendedorQueMenosVendeu.getNome());
 
-        int v = 1;
+        criarArquivoComAResposta(new Relatorio(quantidadeVendedores, quantidadeClientes, idVendaMaisCara, vendedorQueMenosVendeu.getNome()));
     }
 
     private static Vendedor calcularVededorQueMenosVendeu(List<Vendedor> vendedorList, List<Venda> vendaList) {
@@ -130,6 +130,17 @@ public class ManipuladorArquivo {
         System.out.println("Nome Vendedor - " + venda.getNomeVendedor());
         System.out.println();
         return venda;
+    }
+
+    private static void criarArquivoComAResposta(Relatorio relatorio) throws IOException {
+        BufferedWriter buffWrite = new BufferedWriter(new FileWriter("C:\\Users\\User\\Documents\\Estudos\\Java\\Out\\flat_file_name.done.dat"));
+        buffWrite.append("Quantidade de vendedores;Quantidade de clientes;Id da venda mais cara; Nome do pior vendedor").append("\n");
+        buffWrite
+                .append(relatorio.getQuantidadeVendedores().toString()).append(";")
+                .append(relatorio.getQuantidadeClientes().toString()).append(";")
+                .append(relatorio.getIdVendaMaisCara().toString()).append(";")
+                .append(relatorio.getNomePiorVendedor());
+        buffWrite.close();
     }
 
     public static void escritor(String path) throws IOException {
